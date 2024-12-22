@@ -1,0 +1,208 @@
+{% extends "base.html" %}
+
+{% block title %}Login{% endblock %}
+
+{% block content %}
+<style>
+  /* Font Styles */
+  @import url('https://fonts.googleapis.com/css2?family=Roboto+Condensed:wght@700&display=swap');
+
+  .gaming-icon {
+    font-size: 24px;
+    margin-right: 10px;
+    color: #fff;
+  }
+
+  .btn-1:hover {
+    background-color: white;
+    color: black;
+    border-color: black;
+    opacity: 1;
+
+  }
+  .btn-1{
+    background-color:white;
+    border-color: black;
+    opacity: 0.5;
+    color: black;
+    align-items: center;
+  }
+
+  .gaming-header {
+    font-family: 'Roboto Condensed', sans-serif;
+    font-weight: 700;
+    color: #fff;
+    text-align: center;
+    font-size: 45px;
+  }
+
+  .center-form {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    position: relative;
+    z-index: 1;
+    margin-bottom: 10px;
+  }
+
+  .background-image {
+    position: fixed;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    top: 0;
+    width: 100vw;
+    height: 100vh;
+    z-index: -1;
+    object-fit: cover;
+  }
+
+  .content-container {
+    position: relative;
+    z-index: 1;
+    padding: 20px;
+    color: #450000;
+    width: 800px;
+  }
+
+  .form-box {
+    position: relative;
+    max-width: 600px;
+    background-color: #333;
+    border: 2px solid rgb(8, 8, 8);
+    border-radius: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 2rem 3rem;
+  }
+
+  .form-group label {
+    top: 50px;
+    left: 5px;
+    color: white;
+    font-size: 1rem;
+    pointer-events: none;
+    transition: all 0.5s ease-in-out;
+  }
+  .form-group input::placeholder {
+    color: #D2CECD;
+  }
+
+  .login-text {
+    font-family: 'Roboto Condensed', sans-serif;
+    font-weight: 700;
+    color: white;
+    display: flex;
+    align-items: center;
+  }
+
+
+
+
+  body {
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+
+  }
+
+  .form-control {
+    position: relative;
+    width: 500px;
+    background-color: transparent;
+    border: 2px solid rgb(8, 8, 8);
+    backdrop-filter: blur(10px);
+    border-radius: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 2rem 3rem;
+    color: #D2CECD !important;
+  }
+  .lbutton {
+    width: 50%;
+    height: 40px;
+    border-radius: 20px;
+    background-color: white;
+    border: 2px solid rgb(8, 8, 8);
+    outline: none;
+    cursor: pointer;
+    font-size: 1rem;
+    color: black;
+    font-weight: 600;
+    align-items: center;
+    text-align: center;
+    transition: all 0.4s ease;
+  }
+
+  .lbutton:hover {
+    background-color: rgb(53, 52, 52);
+    color: white;
+  }
+
+@media only screen and (max-width: 600px) {
+    .form-control {
+      width: 90%; /* Adjust width for smaller screens */
+    }
+    .form-box {
+      max-width: 90%; /* Adjust max-width for smaller screens */
+    }
+    .gaming-header {
+      font-size: 30px; /* Adjust font size for smaller screens */
+    }
+  }
+
+  @media only screen and (max-width: 400px) {
+    .gaming-header {
+      font-size: 24px; /* Further adjust font size for very small screens */
+    }
+  }
+
+</style>
+
+<img src="{{ url_for('static', filename='building.png') }}" alt="Background Image" class="background-image">
+
+<div class="center-form">
+  <div class="content-container form-box">
+    <form method="POST">
+      <h2 class="gaming-header">Login</h2>
+      <div class="form-group">
+        <label for="email">Project Name: </label>
+        <input
+          type="text"
+          class="form-control"
+          id="email"
+          name="email"
+          placeholder="Enter Project Name"
+        />
+      </div>
+      <div class="form-group">
+        <label for="password">Password:</label>
+        <input
+          type="password"
+          class="form-control"
+          id="password"
+          name="password"
+          placeholder="Enter password"
+        />
+      </div>
+      <div class="form-group">
+        <label for="rid">ID:</label>
+        <input
+          type="text"
+          class="form-control"
+          id="rid"
+          name="rid"
+          placeholder="Enter ID"
+        />
+      </div>
+      <br />
+      <div >
+        <button type="submit" class="btn btn-primary btn-block btn-1">Login</button>
+    </form>
+  </div>
+</div>
+
+{% endblock %}

@@ -1,0 +1,824 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PROJECT PROGRESS TRACKER</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+          integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh"
+          crossorigin="anonymous"/>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <style>
+     .body{
+        background-color: #fff !important;
+    }
+        h1, h2, h3,h6 {
+            text-align: center;
+            margin-bottom: 20px;
+            color: #333;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 20px;
+            background-color: #fff;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+            overflow: hidden;
+        }
+
+        th, td {
+            border: 1px solid #ddd;
+            padding: 10px;
+            text-align: center;
+            font-size: 14px;
+        }
+
+        th {
+            background-color: #f2f2f2;
+            font-weight: bold;
+            color: #333;
+        }
+
+        .table-cablework td {
+            background-color: red; /* Red color for Cable Work */
+            color: white;
+        }
+
+        .table-devicework td {
+            background-color: green; /* Greenish-yellow color for Device Work */
+            color: white;
+        }
+
+        .table-pa-talkback td {
+            background-color: dodgerblue; /* Blue color for PA & Two Way Talkback */
+            color: white;
+        }
+
+        .table-panel-room-works td {
+            background-color: darkorange; /* Orange color for Panel Room Works */
+            color: white;
+        }
+
+        .table-commissioning-works td {
+            background-color: purple; /* Purple color for Commissioning Works */
+            color: white;
+        }
+
+        .table-other-works td {
+            background-color: coral; /* Coral color for Other Works */
+            color: white;
+        }
+
+        tr:nth-child(even) {
+            background-color: #f9f9f9; /* Alternate row background */
+        }
+
+        .progress {
+            height: 20px;
+            margin-bottom: 20px;
+        }
+
+        .total {
+            height: 30px;
+        }
+
+        .no-records {
+            text-align: center;
+            margin: 20px;
+            font-style: italic;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background-color: #fff;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: auto;
+            padding: 20px;
+
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            overflow-x: auto; /* Enable horizontal scrolling */
+        }
+
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 10px;
+            margin-top: 20px;
+            flex-direction: column;
+        }
+
+        .header h1, .header h3 {
+            margin: 0;
+        }
+
+        .footer {
+            padding: 20px;
+            border-top: 1px solid #dee2e6;
+            text-align: center;
+        }
+
+        .footer {
+    display: flex;
+    justify-content: space-between;
+    padding: 20px;
+
+    border-top: 1px solid #ccc; /* subtle border */
+}
+
+.contact-info {
+    margin-bottom: 10px;
+}
+
+.left, .right {
+    flex: 1; /* equal width columns */
+}
+
+.left {
+    margin-right: 10px; /* space between left and right columns */
+}
+
+
+        .footer-bottom {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 10px;
+        }
+
+
+
+
+        .right-align {
+            text-align: right;
+        }
+
+        .right-align p {
+            margin: 5px 0;
+        }
+
+
+        .footer-bottom .regards {
+            text-align: center;
+            margin-left:10px;
+
+}
+
+       .watermark {
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    background-image: url('/static/logo.png');
+    background-position: center;
+    background-repeat: no-repeat;
+    opacity: 0.3;
+    pointer-events: none;
+    z-index: -1;
+}
+
+        .lines {
+            margin-top: 35px; /* Adjust spacing between header and lines */
+        }
+
+        .line {
+            height: 6px; /* Adjust height of the lines */
+            margin-bottom: 3px; /* Add space between each line */
+        }
+
+        .line1 {
+            background: linear-gradient(to right, green, yellow, green);
+        }
+
+        .line2 {
+            background: linear-gradient(to right, red, darkred);
+        }
+
+        .line3 {
+            background: linear-gradient(to right, darkblue, skyblue, darkblue);
+        }
+
+        .logo-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .status-not-approved {
+            background-color: red;
+        }
+
+        .status-pending {
+            background-color: yellow;
+        }
+
+        .status-partiallypending {
+            background-color: orange;
+        }
+
+        .status-done {
+            background-color: green;
+        }
+
+        .status-delayed {
+            background-color: red;
+        }
+
+        .status-completed {
+            background-color: green;
+        }
+
+        .status-other {
+            background-color: darkred;
+        }
+
+        .highlight-row {
+            background-color: orange;
+        }
+
+        .lines {
+            margin-top: 15px; /* Adjust spacing between header and lines */
+        }
+
+        .line {
+            height: 6px; /* Adjust height of the lines */
+            margin-bottom: 3px; /* Add space between each line */
+        }
+
+        .line1 {
+            background: linear-gradient(to right, green, yellow, green);
+        }
+
+        .line2 {
+            background: linear-gradient(to right, red, darkred);
+        }
+
+        .line3 {
+            background: linear-gradient(to right, darkblue, skyblue, darkblue);
+        }
+        .header .right{
+            align-items:right;
+        }
+        .header .left{
+            align-items:left;
+        }
+    </style>
+</head>
+<body>
+        <div class="watermark"></div>
+
+
+<div class="container">
+    <br><br>
+    <div class="logo-header">
+        <img src="{{ url_for('static', filename='logo.png') }}" alt="Logo" width="100">
+        <h3><strong>Nadiya Technology Solutions Pvt Ltd</strong></h3>
+    </div>
+    <div class="lines">
+        <div class="line line1"></div>
+        <div class="line line2"></div>
+        <div class="line line3"></div>
+    </div>
+    <div class="header">
+        <h1><strong>PROJECT PROGRESS TRACKER</strong></h1>
+        <h2></h2>
+        <h3></h3>
+        <br><br>
+            </div>
+
+                <div class = "right-align">
+                    <p><strong>REPORT DATE:</strong> {{ current_date }} &nbsp;&nbsp;</p>
+                </div>
+                <div class = "left">
+                <p><strong>CUSTOMER NAME:</strong> {{current_user.email}}</p>
+                {%if infos %}
+                <p><strong>LOCATION:</strong> {{infos[-1].loc}}</p>
+                <p><strong>PO. NUMBER:</strong> {{infos[-1].po}}</p>
+                <p><strong>PO. Date:</strong> {{infos[-1].pon}}</p>
+
+                {%endif%}
+                <p><strong>START DATE:</strong> {{planned.start}}</p></div>
+
+        <br>
+
+
+
+        <!-- Cable Work Table -->
+
+        <div style="overflow-x: auto;">
+            <table>
+                <thead class = "table-cablework">
+                    <tr>
+                    <td  colspan = "4"><strong>CABLE WORK</strong></td>
+                    </tr>
+                    <tr>
+
+                        <th> </th>
+                        <th>Total Project Quantity</th>
+
+                        <th>Actual</th>
+                        <th>Actual %</th>
+
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+
+                        <th>Cable Tray in meters</th>
+                        <td >{{planned.cable_planned}}</td>
+                        <td >{{cable_actual}}</td> <td
+                        {% set cable_percentage = ((cable_actual / planned.cable_planned) * 100)| round(2) %}
+                        {% if cable_percentage > 0 %}
+                            id="{{ cable_percentage }}"
+                        {% endif %}>
+                        {{ cable_percentage }}%
+                    </td>
+                    </tr>
+                    <tr>
+
+                        <th>PVC Conduit (FRLS) installation in meters</th>
+                        <td >{{planned.pvc_planned}}</td>
+                        <td >{{ pvc_actual }}</td>
+                        <td
+                        {% set pvc_percentage = ((pvc_actual / planned.pvc_planned) * 100)| round(2) %}
+                        {% if pvc_percentage > 0 %}
+                            id="{{ pvc_percentage }}"
+                        {% endif %}>
+                        {{ pvc_percentage }}%
+                    </td>
+                    </tr>
+                    <tr>
+
+                        <th>Marking and Drilling work in meters</th>
+                        <td >{{planned.mark_planned}}</td>
+                        <td>{{ mark_actual }}</td>
+                        <td
+                            {% set mark_percentage = ((mark_actual / planned.mark_planned) * 100) | round(2) %}
+                            {% if mark_percentage > 0 %}
+
+                            {% endif %}>
+                            {{ mark_percentage }}%
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>Cable installation in meters</th>
+                        <td >{{planned.ci_planned}}</td>
+                        <td>{{ ci_actual }}</td>
+                        <td
+                            {% set ci_percentage = ((ci_actual / planned.ci_planned) * 100) | round(2) %}
+                            {% if ci_percentage > 0 %}
+
+                            {% endif %}>
+                            {{ ci_percentage }}%
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+            <div class="progress mt-3">
+                {% set total_actual = cable_actual*48 + pvc_actual*4 +  mark_actual*18+ ci_actual*30 %}
+                {% set total_planned = planned.cable_planned*48 + planned.pvc_planned*4 +planned.mark_planned*18+planned.ci_planned*30 %}
+                {% set total_percentage = ((total_actual / total_planned) * 100)|round(2) %}
+                <div class="progress-bar " style="width: {{ total_percentage }}%; background-color: red; padding: 5px; text-align: center;" role="progressbar" aria-valuenow="{{ total_percentage }}" aria-valuemin="0" aria-valuemax="100">{{ total_percentage }}%</div>
+            </div>
+        </div> <br><br>
+
+        <!-- Device Work Table -->
+
+        <div style="overflow-x: auto;">
+            <table>
+                <thead class = "table-devicework">                    <tr>
+                        <td  colspan = "4"><strong>DEVICE WORK</strong></td>
+                        </tr>
+                    <tr>
+                        <th></th>
+                        <th>Total Project Quantity</th>
+
+                        <th>Actual</th>
+                        <th>Actual %</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <th>Backbox installation</th>
+                        <td >{{ planned.backboxinstallation_planned }}</td>
+                        <td>{{ backboxinstallation_actual }}</td>
+                        <td
+                        {% set backboxinstallation_percentage = ((backboxinstallation_actual / planned.backboxinstallation_planned) * 100)| round(2) %}
+                        {% if backboxinstallation_percentage > 0 %}
+                            id="{{ backboxinstallation_percentage }}"
+                        {% endif %}>
+                        {{ backboxinstallation_percentage }}%
+                    </td>
+                    </tr>
+                    <tr>
+                        <th>Base installation</th>
+                        <td >{{planned.baseinstallation_planned}}</td>
+                        <td>{{ baseinstallation_actual }}</td>
+                        <td
+                        {% set baseinstallation_percentage = ((baseinstallation_actual / planned.baseinstallation_planned) * 100)| round(2) %}
+                        {% if baseinstallation_percentage > 0 %}
+                            id="{{ baseinstallation_percentage }}"
+                        {% endif %}>
+                        {{ baseinstallation_percentage }}%
+                    </td>
+                    </tr>
+                    <tr>
+                        <th>Detector installation</th>
+                        <td >{{planned.detectorinstallation_planned}}</td>
+                        <td>{{ detectorinstallation_actual }}</td>
+                        <td
+                        {% set detectorinstallation_percentage = ((detectorinstallation_actual / planned.detectorinstallation_planned) * 100)| round(2) %}
+                        {% if detectorinstallation_percentage > 0 %}
+                            id="{{ detectorinstallation_percentage }}"
+                        {% endif %}>
+                        {{ detectorinstallation_percentage }}%
+                    </td>
+                    </tr>
+                    <tr>
+                        <th>Control Module installation</th>
+                        <td >{{planned.controlmoduleinstallation_planned}}</td>
+                        <td>{{ controlmoduleinstallation_actual }}</td>
+                        <td
+    {% set controlmoduleinstallation_percentage = ((controlmoduleinstallation_actual / planned.controlmoduleinstallation_planned) * 100)| round(2) %}
+    {% if controlmoduleinstallation_percentage > 0 %}
+        id="{{ controlmoduleinstallation_percentage }}"
+    {% endif %}>
+    {{ controlmoduleinstallation_percentage }}%
+</td>
+
+                    </tr>
+                    <tr>
+                        <th>Hooter installation</th>
+                        <td >{{planned.hooterinstallation_planned}}</td>
+                        <td>{{ hooterinstallation_actual }}</td>
+                        <td
+    {% set hooterinstallation_percentage = ((hooterinstallation_actual / planned.hooterinstallation_planned) * 100)| round(2) %}
+    {% if hooterinstallation_percentage > 0 %}
+        id="{{ hooterinstallation_percentage }}"
+    {% endif %}>
+    {{ hooterinstallation_percentage }}%
+</td>
+
+                    </tr>
+                    <tr>
+                        <th>MCP installation</th>
+                        <td >{{planned.mcpinstallation_planned}}</td>
+                        <td>{{ mcpinstallation_actual }}</td>
+                        <td
+    {% set mcpinstallation_percentage = ((mcpinstallation_actual / planned.mcpinstallation_planned) * 100)| round(2) %}
+    {% if mcpinstallation_percentage > 0 %}
+        id="{{ mcpinstallation_percentage }}"
+    {% endif %}>
+    {{ mcpinstallation_percentage }}%
+</td>
+
+                    </tr>
+                    <tr>
+                        <th>Response Indicator installation</th>
+                        <td >{{planned.responseindicatorinstallation_planned}}</td>
+                        <td>{{ responseindicatorinstallation_actual }}</td>
+                        <td
+    {% set responseindicatorinstallation_percentage = ((responseindicatorinstallation_actual / planned.responseindicatorinstallation_planned) * 100)| round(2) %}
+    {% if responseindicatorinstallation_percentage > 0 %}
+        id="{{ responseindicatorinstallation_percentage }}"
+    {% endif %}>
+    {{ responseindicatorinstallation_percentage }}%
+</td>
+                    </tr>
+                    <tr>
+                        <th>Monitor Module installation</th>
+                        <td >{{planned.monitormoduleinstallation_planned}}</td>
+                        <td>{{ monitormoduleinstallation_actual }}</td>
+                        <td
+    {% set monitormoduleinstallation_percentage = ((monitormoduleinstallation_actual / planned.monitormoduleinstallation_planned) * 100)| round(2) %}
+    {% if monitormoduleinstallation_percentage > 0 %}
+        id="{{ monitormoduleinstallation_percentage }}"
+    {% endif %}>
+    {{ monitormoduleinstallation_percentage }}%
+</td>
+                    </tr>
+                    <tr>
+                        <th>Control Relay Module installation</th>
+                        <td >{{planned.controlrelaymoduleinstallation_planned}}</td>
+                        <td>{{ controlrelaymoduleinstallation_actual }}</td>
+                        <td
+    {% set controlrelaymoduleinstallation_percentage = ((controlrelaymoduleinstallation_actual / planned.controlrelaymoduleinstallation_planned) * 100)| round(2) %}
+    {% if controlrelaymoduleinstallation_percentage > 0 %}
+        id="{{ controlrelaymoduleinstallation_percentage }}"
+    {% endif %}>
+    {{ controlrelaymoduleinstallation_percentage }}%
+</td>
+
+
+                    </tr>
+                    <tr>
+                        <th>Isolator Module installation</th>
+                        <td >{{planned.isolatormoduleinstallation_planned}}</td>
+                        <td>{{ isolatormoduleinstallation_actual }}</td>
+                        <td
+    {% set isolatormoduleinstallation_percentage = ((isolatormoduleinstallation_actual / planned.isolatormoduleinstallation_planned) * 100)| round(2) %}
+    {% if isolatormoduleinstallation_percentage > 0 %}
+        id="{{ isolatormoduleinstallation_percentage }}"
+    {% endif %}>
+    {{ isolatormoduleinstallation_percentage }}%
+</td>
+
+                    </tr>
+                </tbody>
+            </table>
+            <div class="progress mt-3">
+                {% set total_actual_device = backboxinstallation_actual*20 + baseinstallation_actual*26.7 + detectorinstallation_actual*10 + controlmoduleinstallation_actual*6.7 + hooterinstallation_actual*6.7 + mcpinstallation_actual*6.7 + responseindicatorinstallation_actual*6.7 + monitormoduleinstallation_actual*6.7 + controlrelaymoduleinstallation_actual*6.7 + isolatormoduleinstallation_actual*3.3 %}
+
+                {% set total_planned_device = planned.backboxinstallation_planned*20 + planned.baseinstallation_planned*26.7 + planned.detectorinstallation_planned*10 + planned.controlmoduleinstallation_planned*6.7 + planned.hooterinstallation_planned*6.7 + planned.mcpinstallation_planned*6.7 + planned.responseindicatorinstallation_planned*6.7+ planned.monitormoduleinstallation_planned*6.7 + planned.controlrelaymoduleinstallation_planned*6.7 + planned.isolatormoduleinstallation_planned*3.3 %}
+
+                {% set total_percentage_device = ((total_actual_device / total_planned_device) * 100)|round(2) %}
+
+                <div class="progress-bar" style="width: {{ total_percentage_device }}%; background-color: green; padding: 5px; text-align: center;" role="progressbar" aria-valuenow="{{ total_percentage_device }}" aria-valuemin="0" aria-valuemax="100">{{ total_percentage_device }}%</div>
+            </div>
+            <br><br>
+
+        </div>
+
+
+
+        <!-- Panel Room Works Table -->
+
+        <div style="overflow-x: auto;">
+            <table>
+                <thead class = "table-panel-room-works">
+                    <tr>
+                        <td  colspan = "4"><strong>PANEL ROOM WORKS</strong></td>
+                        </tr>
+                    <tr>
+
+                        <th></th>
+                        <th>Total Project Quantity</th>
+
+                        <th>Actual</th>
+                        <th>Actual %</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+
+                        <th>Fire Panel installation</th>
+                        <td >{{planned.firepanelinstallation_planned}}</td>
+                        <td>{{ firepanelinstallation_actual }}</td>
+                        <td
+    {% set firepanelinstallation_percentage = ((firepanelinstallation_actual / planned.firepanelinstallation_planned) * 100)| round(2) %}
+    {% if firepanelinstallation_percentage > 0 %}
+        id="{{ firepanelinstallation_percentage }}"
+    {% endif %}>
+    {{ firepanelinstallation_percentage }}%
+</td>
+<tr>
+    <th>SMPS installation</th>
+    <td >{{planned.smpsinstallation_planned}}</td>
+    <td>{{ smpsinstallation_actual }}</td>
+    <td
+    {% set smpsinstallation_percentage = ((smpsinstallation_actual / planned.smpsinstallation_planned) * 100)| round(2) %}
+    {% if smpsinstallation_percentage > 0 %}
+        id="{{ smpsinstallation_percentage }}"
+    {% endif %}>
+    {{ smpsinstallation_percentage }}%
+</td>
+</tr>
+                  
+                </tbody>
+            </table>
+            <div class="progress mt-3">
+        {% set total_actual_panel_room = firepanelinstallation_actual*66.66 +smpsinstallation_actual*33.33 %}
+        {% set total_planned_panel_room = planned.firepanelinstallation_planned*66.66 + planned.smpsinstallation_planned*33.33%}
+        {% set total_percentage_panel_room = ((total_actual_panel_room / total_planned_panel_room) * 100) | round(2) %}
+
+        <div class="progress-bar" style="width: {{ total_percentage_panel_room }}%; background-color: darkorange; padding: 5px; text-align: center;" role="progressbar" aria-valuenow="{{ total_percentage_panel_room }}" aria-valuemin="0" aria-valuemax="100">{{ total_percentage_panel_room }}%</div>
+    </div>
+        </div><br><br>
+
+        <!-- Commissioning Works Table -->
+
+        <div style="overflow-x: auto;">
+            <table>
+                <thead class = "table-commissioning-works">                    <tr>
+                        <td  colspan = "4"><strong>COMMISSIONING WORKS<strong></td>
+                        </tr>
+                    <tr>
+                        <th></th>
+                        <th>Total Project Quantity</th>
+
+                        <th>Actual</th>
+                        <th>Actual %</th>
+                    </tr>
+                </thead>
+                <tbody>
+                   
+                    <tr>
+                        <th>Detector testing</th>
+                        <td >{{planned.detectortesting_planned}}</td>
+                        <td>{{ detectortesting_actual }}</td>
+                        <td
+                        {% set detectortesting_percentage = ((detectortesting_actual / planned.detectortesting_planned) * 100)| round(2) %}
+                        {% if detectortesting_percentage > 0 %}
+                            id="{{ detectortesting_percentage }}"
+                        {% endif %}>
+                        {{ detectortesting_percentage }}%
+                    </td>
+                    </tr>
+                    <tr>
+                        <th>Continuity testing</th>
+                        <td >{{planned.continuitytesting_planned}}</td>
+                        <td>{{ continuitytesting_actual }}</td>
+                        <td
+    {% set continuitytesting_percentage = ((continuitytesting_actual / planned.continuitytesting_planned) * 100)| round(2) %}
+    {% if continuitytesting_percentage > 0 %}
+        id="{{ continuitytesting_percentage }}"
+    {% endif %}>
+    {{ continuitytesting_percentage }}%
+</td>
+                    </tr>
+                    <tr>
+                        <th>Programming</th>
+                        <td >{{planned.programming_planned}}</td>
+                        <td>{{ continuitytesting_actual }}</td>
+                        <td
+                        {% set programming_percentage = ((programming_actual / planned.programming_planned) * 100)| round(2) %}
+                        {% if programming_percentage > 0 %}
+                            id="{{ programming_percentage }}"
+                        {% endif %}>
+                        {{ programming_percentage }}%
+                    </td>
+                    </tr>
+                </tbody>
+            </table>
+            <div class="progress mt-3">
+                {% set total_actual_commissioning =  + detectortesting_actual*33.33 + continuitytesting_actual*33.33 + programming_actual*33.33 %}
+                {% set total_planned_commissioning =  planned.detectortesting_planned*33.33 + planned.continuitytesting_planned*33.33 + planned.programming_planned*33.33 %}
+                {% set total_percentage_commissioning = ((total_actual_commissioning / total_planned_commissioning) * 100) | round(2) %}
+
+                <div class="progress-bar" style="width: {{ total_percentage_commissioning }}%; background-color: purple; padding: 5px; text-align: center;" role="progressbar" aria-valuenow="{{ total_percentage_commissioning }}" aria-valuemin="0" aria-valuemax="100">{{ total_percentage_commissioning }}%</div>
+            </div>
+        </div><br><br>
+
+        <!-- Other Works Table -->
+
+        <div style="overflow-x: auto;">
+            <table>
+                <thead class = "table-other-works">     <tr>
+                        <td  colspan = "4"><strong>OTHER WORKS</strong></td>
+                        </tr>
+                    <tr>
+                        <th></th>
+                        <th>Total Project Quantity</th>
+
+                        <th>Actual</th>
+                        <th>Actual %</th>
+                    </tr>
+                </thead>
+                <tbody>
+
+                    <tr>
+                        <th>Chipping/Plastering work</th>
+                        <td >{{planned.chippingplasting_planned}}</td>
+                        <td>{{ chippingplasting_actual }}</td>
+                        <td
+                        {% set chippingplasting_percentage = ((chippingplasting_actual / planned.chippingplasting_planned) * 100)| round(2) %}
+                        {% if chippingplasting_percentage > 0 %}
+                            id="{{ chippingplasting_percentage }}"
+                        {% endif %}>
+                        {{ chippingplasting_percentage }}%
+                    </td>                    </tr>
+                    <tr>
+                        <th>Handing over document</th>
+                        <td >{{planned.handingoverdocument_planned}}</td>
+                        <td>{{ handingoverdocument_actual }}</td>
+                        <td
+                        {% set handingoverdocument_percentage = ((handingoverdocument_actual / planned.handingoverdocument_planned) * 100)| round(2) %}
+                        {% if handingoverdocument_percentage > 0 %}
+                            id="{{ handingoverdocument_percentage }}"
+                        {% endif %}>
+                        {{ handingoverdocument_percentage }}%
+                    </td>                    </tr>
+                </tbody>
+            </table>
+            <div class="progress mt-3">
+                {% set total_actual_other = chippingplasting_actual*80 + handingoverdocument_actual*20 %}
+                {% set total_planned_other = planned.chippingplasting_planned*80 + planned.handingoverdocument_planned*20 %}
+                {% set total_percentage_other = ((total_actual_other / total_planned_other) * 100) | round(2) %}
+
+                <div class="progress-bar" style="width: {{ total_percentage_other }}%; background-color: coral; padding: 5px; text-align: center;" role="progressbar" aria-valuenow="{{ total_percentage_other }}" aria-valuemin="0" aria-valuemax="100">{{ total_percentage_other }}%</div>
+            </div>
+        </div><br><br>
+            <br><br><br><br><hr> <br><br><br><br>
+
+    <h2><strong>PROJECT COMPLETION</strong></h2><br><br>
+<div style="border: 4px solid black; padding: 10px; margin-top: 10px;">
+    <p><br>
+        <h3><strong>Total Percentage =
+            {% set total_percentage = (cable_percentage*24 + pvc_percentage*2 + mark_percentage*9 + ci_percentage*15 +backboxinstallation_percentage*6 + baseinstallation_percentage*8 +detectorinstallation_percentage*3+controlmoduleinstallation_percentage*2+hooterinstallation_percentage*2+mcpinstallation_percentage*2+responseindicatorinstallation_percentage*2+monitormoduleinstallation_percentage*2+ controlrelaymoduleinstallation_percentage*2+ isolatormoduleinstallation_percentage*1+ firepanelinstallation_percentage*2 +smpsinstallation_percentage*1+detectortesting_percentage*4 +continuitytesting_percentage*4+ programming_percentage*4+chippingplasting_percentage*4+ handingoverdocument_percentage*1)/100 %}
+            {% set total_percentage = total_percentage | round(2) %}
+            {{ total_percentage }}%<br> <br>
+            <div class="progress">
+                <div class="progress-bar" style="width: {{ total_percentage }}%; background-color: green; padding: 5px; text-align: center;" role="progressbar" aria-valuenow="{{ total_percentage }}" aria-valuemin="0" aria-valuemax="100">{{ total_percentage }}%</div>
+            </div><br>
+
+    </p>
+</div><br> <br>
+
+
+    <hr><br>
+
+        <h2><strong>REMARKS TABLE</strong></h2>
+        <div style="overflow-x: auto;">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Date</th>
+                        <th>Site Incharge</th>
+                        <th>Remarks</th>
+                        <th>Support Required from Customer</th>
+                        <th> Customer Action Date </th>
+                        <th>Customer Action Remarks</th>
+                    </tr>
+                </thead>
+                <tbody>
+
+                    {% if records %}
+
+                    {% for record in rec | reverse %}
+                    <tr >
+
+                            <td {% if loop.index < 8  %}class="highlight-row"{% endif %}>{{ record.date }}</td>
+                            <td {% if loop.index < 8  %}class="highlight-row"{% endif %}>{{ record.site }}</td>
+                            <td {% if loop.index < 8  %}class="highlight-row"{% endif %}>{{ record.remarks }}</td>
+                            <td {% if loop.index < 8  %}class="highlight-row"{% endif %}>{{ record.support }}</td>
+                            <td {% if loop.index < 8  %}class="highlight-row"{% endif %}>{{ record.support1 }}</td>
+                            <td class="{% if record.sdate == 'no action' %}status-not-approved{% elif record.sdate == 'partially completed' %}status-pending{% else %}status-done{% endif %}">{{ record.sdate }}</td>
+                    </tr>
+
+                {% endfor %}
+
+                    {% else %}
+                        <tr>
+                            <td colspan="6" class="no-records">No records found.</td>
+                        </tr>
+                    {% endif %}
+                </tbody>
+            </table>
+        </div>
+
+    <br><br>
+
+
+
+
+
+    <h6>For any queries Contact:</h6>
+       <div class="footer">
+    <div class="left">
+        <div class="contact-info">
+ <p>PROJECT INCHARGE</p>
+            <p>{{contact.name1}}</p>
+            <p><i class="fa fa-envelope"></i><a href="mailto:{{contact.email1}}">{{contact.email1}}</a></p>
+            <p><i class="fa fa-phone"></i> {{contact.contact1}}</p>
+        </div>
+    </div>
+    <div class="right">
+        <div class="contact-info">
+  <p>ESCALATION MANAGER</p>
+            <p>{{contact.name2}}</p>
+            <p><i class="fa fa-envelope"></i> <a href="mailto:{{contact.email2}}">{{contact.email2}}</a></p>
+            <p><i class="fa fa-phone"></i> {{contact.contact2}}</p>
+        </div>
+    </div>
+
+
+        </div>
+
+        <div class="lines">
+        <div class="line line1"></div>
+        <div class="line line2"></div>
+        <div class="line line3"></div>
+    </div>
+      <div class="footer-bottom">
+            <div class="left">
+
+                 <div class="regards">
+
+                   <center>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;#372/A, 2nd Floor, New No. 7, 50ft Main Road,
+                    Banashankari 1st Stage, Bangalore – 560019 Ph: 080 26628080 |
+                    Web : www.nadiya.in<br></p></center>
+                    <p><center><strong> GST: 29AAECN7940D1ZC  |  CIN: U74900KA2014PTC077481</strong></center></p>
+                </div>
+                </div>
+    <br><br>
+    </div>
+
+</body>
+</html>

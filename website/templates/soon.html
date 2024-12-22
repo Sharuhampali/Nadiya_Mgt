@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Under Construction - Dead End : A Zombie Tale</title>
+  <link rel="icon" type="image/png" href="{{url_for('static',filename='logo.png')}}">
+  
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+    integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous" />
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css"
+    crossorigin="anonymous" />
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Roboto+Condensed:wght@700&display=swap');
+    
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Roboto Condensed', sans-serif;
+    }
+
+    body {
+      height: 100vh;
+      width: 100vw;
+      max-height: 100vh;
+      background-color: #f0f0f0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .content {
+      text-align: center;
+      color: #333;
+    }
+
+    h1 {
+      font-size: 48px;
+      margin-bottom: 30px;
+      color: #333;
+    }
+
+    p {
+      font-size: 20px;
+      margin-bottom: 20px;
+    }
+
+    .alert {
+      margin-top: 20px;
+      padding: 15px;
+      background-color: #ffeaa7;
+      border: 1px solid #fdcb6e;
+      border-radius: 5px;
+      color: #d35400;
+      text-align: left;
+    }
+
+    .alert .close {
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="container">
+    <div class="content">
+      <h1>🚧 Under Construction 🚧</h1>
+      <p>We're cooking up something awesome for you!</p>
+      <p>Meanwhile, why not grab a cup of coffee and brace yourself?</p>
+      <div class="alert">
+        <strong>Heads Up!</strong> This page is not quite ready yet.
+        <button type="button" class="close" data-dismiss="alert">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <p>Stay tuned for updates!</p>
+    </div>
+  </div>
+
+</body>
+</html>

@@ -1,0 +1,760 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Project Progress Tracker</title>
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/styles.css') }}">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+          integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh"
+          crossorigin="anonymous"/>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css"
+          crossorigin="anonymous"/>
+          <style>
+            body {
+                font-family: sans-serif;
+                margin: 0;
+                padding: 0;
+                background-color: #fff;
+    
+            }
+    
+            .container {
+                max-width: 1200px;
+                margin: auto;
+                padding: 20px;
+                background: #fff;
+                border-radius: 8px;
+                overflow: hidden;
+                box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            }
+    
+            h2 {
+                text-align: center;
+                margin-bottom: 20px;
+            }
+    
+            .table-container {
+                overflow-x: auto;
+                width: 100%;
+                border-collapse: collapse;
+                border: 2px solid;
+                margin-bottom: 20px;
+                overflow-x: auto; /* Enable horizontal scrolling */
+                display: block; /* Ensure table has its own block context */
+                white-space: nowrap; /* Prevent text wrapping inside cells */
+            }
+    
+            table {
+                width: 100%;
+                border-collapse: collapse;
+                margin-bottom: 20px;
+            }
+    
+            th, td {
+                border: 2px solid black;
+                padding: 8px;
+                text-align: center;
+            }
+    
+            th {
+                background-color: #f2f2f2;
+                position: sticky;
+                top: 0;
+                z-index: 1;
+            }
+    
+            .button-container {
+                text-align: center;
+                margin-top: 20px;
+            }
+    
+            .button-container button {
+                padding: 10px 20px;
+                background-color: purple;
+                color: white;
+                border: none;
+                border-radius: 5px;
+                cursor: pointer;
+                margin-right: 10px;
+            }
+    
+            .button-container button:hover {
+                background-color: #CC1DDE;
+            }
+    
+            .remarks-input {
+                width: 300px;
+            }
+    
+            .scrollable-table {
+                max-height: 400px;
+                overflow-y: auto;
+                width: 100%;
+                border-collapse: collapse;
+                border: 2px solid;
+                margin-bottom: 20px;
+                overflow-x: auto; /* Enable horizontal scrolling */
+                display: block; /* Ensure table has its own block context */
+                white-space: nowrap; /* Prevent text wrapping inside cells */
+            }
+    
+             th:first-child {
+                    left: 0;
+                    z-index: 3;
+                    background-color: #f2f2f2;
+                    border: 2px solid black;
+                padding: 8px;
+                text-align: center;
+                }
+    
+                td:first-child {
+                    position: sticky;
+                    left: 0;
+                    background-color: white;
+                    z-index: 1;
+                    border: 2px solid black;
+                padding: 8px;
+                text-align: center;
+                }
+                  tr:first-child {
+                    position: sticky;
+    
+                }
+    
+               .sticky-r {
+        position: sticky;
+        top: 0;
+        background-color: white;
+        z-index: 1;
+        border: 2px solid black;
+        padding: 8px;
+        text-align: center;
+    }
+            .info {
+                display: flex;
+                flex-wrap: wrap;
+                gap: 10px; /* Reduce space between each .info-line */
+                margin-bottom: 10px;
+            }
+    
+            .info-line {
+                display: flex;
+                flex-direction: column;
+                flex: 1 1 calc(33.33% - 10px); /* Reduce width for three columns per row with smaller gaps */
+                padding: 10px; /* Reduce padding inside the .info-line */
+                border: 1px solid #ccc; /* Border around the .info-line */
+                border-radius: 4px; /* Reduce border radius for less rounded corners */
+                background-color: #EFE4F0; /* Background color for the .info-line */
+                box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1); /* Reduce shadow */
+                margin-bottom: 10px; /* Reduce space at the bottom of each .info-line */
+            }
+    
+            .info-line label {
+                font-size: 12px; /* Reduce font size of the label */
+                margin-bottom: 3px; /* Reduce space between the label and input */
+                font-weight: bold; /* Bold label text */
+                color: #333; /* Label text color */
+            }
+            .info-line1 {
+                width: 32.5%;
+                padding: 10px; /* Reduce padding inside the .info-line */
+                border: 1px solid #ccc; /* Border around the .info-line */
+                border-radius: 4px; /* Reduce border radius for less rounded corners */
+                background-color: #EFE4F0; /* Background color for the .info-line */
+                box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1); /* Reduce shadow */
+                margin-bottom: 10px; /* Reduce space at the bottom of each .info-line */
+            }
+    
+            .info-line1 label {
+                font-size: 12px; /* Reduce font size of the label */
+                margin-bottom: 3px; /* Reduce space between the label and input */
+                font-weight: bold; /* Bold label text */
+                color: #333; /* Label text color */
+            }
+    
+            .info-line input[type="text"],
+            .info-line input[type="number"],
+            .info-line input[type="date"],
+            .info-line1 input[type="date"],
+            .info-line select {
+                width: 100%; /* Full width of the .info-line */
+                padding: 5px; /* Reduce padding inside the input */
+                font-size: 12px; /* Reduce font size for better readability */
+                border: 1px solid #ccc; /* Border around the input */
+                border-radius: 3px; /* Reduce rounded corners of the input */
+                box-sizing: border-box; /* Include padding and border in the element's total width and height */
+            }
+    
+            .info-line input[type="text"]:focus,
+            .info-line input[type="number"]:focus,
+            .info-line input[type="date"]:focus,
+            .info-line1 input[type="date"]:focus,
+            .info-line select:focus {
+                border-color: #4CAF50; /* Border color on focus */
+                outline: none; /* Remove default outline */
+                box-shadow: 0 0 3px rgba(76, 175, 80, 0.5); /* Subtle shadow on focus */
+            }
+    
+            .fire th{
+                background-color: red;
+            }
+            .details th{
+                background-color:lightblue;
+            }
+            button {
+                font-family: Arial, Helvetica, sans-serif;
+                font-weight: bold;
+                color: white;
+                background-color: #D55CFF !important;
+                padding: 1em 2em;
+                border: none;
+                border-radius: .6rem;
+                position: relative;
+                cursor: pointer;
+                overflow: hidden;
+              }
+              
+              button span:not(:nth-child(6)) {
+                position: absolute;
+                left: 50%;
+                top: 50%;
+                transform: translate(-50%, -50%);
+                height: 30px;
+                width: 30px;
+                background-color: #0c66ed;
+                border-radius: 50%;
+                transition: .6s ease;
+              }
+              
+              button span:nth-child(6) {
+                position: relative;
+              }
+              
+              button span:nth-child(1) {
+                transform: translate(-3.3em, -4em);
+              }
+              
+              button span:nth-child(2) {
+                transform: translate(-6em, 1.3em);
+              }
+              
+              button span:nth-child(3) {
+                transform: translate(-.2em, 1.8em);
+              }
+              
+              button span:nth-child(4) {
+                transform: translate(3.5em, 1.4em);
+              }
+              
+              button span:nth-child(5) {
+                transform: translate(3.5em, -3.8em);
+              }
+              
+              button:hover span:not(:nth-child(6)) {
+                transform: translate(-50%, -50%) scale(4);
+                transition: 1.5s ease;
+              }
+                
+              .pa th{
+                background-color: #5C88FF;
+              }
+    
+        </style>
+    <head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbar">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbar">
+      <div class="navbar-nav">
+        <a class="nav-item nav-link" id="home" href="/"><i class="fa fa-home"></i> Home</a>
+        <a class="nav-item nav-link" id="all" href="/all"><i class="fa fa-briefcase"></i> Projects</a>
+        <a class="nav-item nav-link" id="gantt" href="/gantt"><i class="fa fa-bar-chart"></i> GTC</a>
+        <a class="nav-item nav-link" id="pmt" href="/pmt"><i class="fa fa-tasks"></i> PMT</a>
+        <a class="nav-item nav-link" id="ppt" href="/ppt"><i class="fa fa-line-chart"></i> PPT</a>
+        <a class="nav-item nav-link" id="stock" href="/stock"><i class="fa fa-cubes"></i> MR</a>
+      </div>
+      <div class="navbar-nav ml-auto">
+        <a class="nav-item nav-link" id="logout" href="/logout"><i class="fa fa-sign-out"></i> Logout</a>
+      </div>
+    </div>
+  </nav>
+
+<br> <br>
+<div class="container">
+    <form action="/save_datafas3" method="POST">
+        <div class="header">
+            <img src="{{ url_for('static', filename='logo.png') }}" alt="Logo" width="100">
+        </div>
+        <div class="pname">
+            <h2><strong>PROJECT NAME: {{ current_user.email }}</strong></h2>
+        </div>
+        <br><br>
+        <div class="info">
+
+            <label for="start">START DATE:&nbsp;&nbsp;&nbsp;</label>
+            <input type="date" id="start" name="start" value="{{ planned.start }}">
+        </div>
+
+        <div class="info">
+            <div class="info-line">
+                <label for="name1">PROJECT INCHARGE:</label><br>
+                <input type="text" id="name1" name="name1" value="{{ contact.name1 }}">
+            </div>
+
+            <div class="info-line">
+                <label for="email1">EMAIL:</label>
+                <br>
+                <input type="email" id="email1" name="email1" value="{{contact.email1}}">
+            </div>
+            <div class="info-line">
+                <label for="contact1">CONTACT NO.:</label><br>
+                <input type="text" id="contact1" name="contact1" value="{{ contact.contact1 }}">
+            </div>
+        </div>
+        <div class = "info">
+        <div class="info-line">
+            <label for="name2">ESCALATION MANAGER:</label><br>
+            <input type="text" id="name2" name="name2" value="{{ contact.name2}}">
+        </div>
+            <div class="info-line">
+                <label for="email2">EMAIL:</label>
+                <br>
+                <input type="email" id="email2" name="email2" value="{{contact.email2}}">
+            </div>
+
+
+            <div class="info-line">
+                <label for="contact2">CONTACT NO.:</label><br>
+                <input type="text" id="contact2" name="contact2" value="{{ contact.contact2 }}">
+            </div>
+        </div>
+
+<br> <br>
+
+    <div class="table-container fire">
+        <table>
+            <thead>
+                <tr>
+                    <th colspan="20">FIRE SYSTEM</th>
+                </tr>
+                <tr>
+                    <th> </th>
+                    <th colspan='4' >Cable Work</th>
+                    <th colspan='10'>Device Work</th>
+                    
+                    <th colspan='2'>Panel Room Works</th>
+                    <th colspan='3'>Commissioning Works</th>
+                    <th colspan='2'>Other Works</th>
+                </tr>
+                <tr>
+                    <th></th>
+                    <th>Cable Tray in meters</th>
+                    <th>PVC Conduit (FRLS) installation in meters</th>
+                    <th>Marking and Drilling work in meters</th>
+                    <th>Cable Installation (Laying, Saddling, Dressing)</th>
+                    <th>Backbox Installation in numbers</th>
+                    <th>Base Installation in numbers</th>
+                    <th>Detector Installation in numbers</th>
+                    <th>Control Module Installation in numbers</th>
+                    <th>Hooter Installation in numbers</th>
+                    <th>MCP Installation in numbers</th>
+                    <th>Response Indicator Installation in numbers</th>
+                    <th>Monitor module Installation</th>
+                    <th>Control Relay Module Installation</th>
+                    <th>Isolator Module Installation</th>
+                    <th>Fire Panel Installation</th>
+                    <th>SMPS Installation</th>
+                    <th>Detector Addressing and stickering</th>
+                    <th>Continuity Testing and other commissioning works</th>
+                    <th>Programming</th>
+                    <th>Chipping, Plasting & Others</th>
+                    <th>Handing Over Document</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <th>Project Quantity</th>
+                    <td><input type="number" id="cable_planned" name="cable_planned" class="form-control" value="{{ planned.cable_planned }}"></td>
+                    <td><input type="number" name="pvc_planned" class="form-control" value="{{ planned.pvc_planned }}"></td>
+                    <td><input type="number" name="mark_planned" class="form-control" value="{{planned.mark_planned }}"></td>
+                    <td><input type="number" name="ci_planned" class="form-control" value="{{ planned.ci_planned }}"></td>
+                    <td><input type="number" name="backboxinstallation_planned" class="form-control" value="{{ planned.backboxinstallation_planned }}"></td>
+                    <td><input type="number" name="baseinstallation_planned" class="form-control" value="{{ planned.baseinstallation_planned }}"></td>
+                    <td><input type="number" name="detectorinstallation_planned" class="form-control" value="{{ planned.detectorinstallation_planned }}"></td>
+                    <td><input type="number" name="controlmoduleinstallation_planned" class="form-control" value="{{ planned.controlmoduleinstallation_planned }}"></td>
+                    <td><input type="number" name="hooterinstallation_planned" class="form-control" value="{{ planned.hooterinstallation_planned }}"></td>
+                    <td><input type="number" name="mcpinstallation_planned" class="form-control" value="{{ planned.mcpinstallation_planned }}"></td>
+                    <td><input type="number" name="responseindicatorinstallation_planned" class="form-control" value="{{ planned.responseindicatorinstallation_planned }}"></td>
+                    <td><input type="number" name="monitormoduleinstallation_planned" class="form-control" value="{{ planned.monitormoduleinstallation_planned }}"></td>
+                    <td><input type="number" name="controlrelaymoduleinstallation_planned" class="form-control" value="{{ planned.controlrelaymoduleinstallation_planned }}"></td>
+                    <td><input type="number" name="isolatormoduleinstallation_planned" class="form-control" value="{{ planned.isolatormoduleinstallation_planned }}"></td>
+                    <td><input type="number" name="firepanelinstallation_planned" class="form-control" value="{{ planned.firepanelinstallation_planned }}"></td>
+                    <td><input type="number" name="smpsinstallation_planned" class="form-control" value="{{ planned.smpsinstallation_planned }}"></td>
+                    <td><input type="number" name="detectortesting_planned" class="form-control" value="{{ planned.detectortesting_planned }}"></td>
+                    <td><input type="number" name="continuitytesting_planned" class="form-control" value="{{ planned.continuitytesting_planned }}"></td>
+                    <td><input type="number" name="programming_planned" class="form-control" value="{{ planned.programming_planned }}"></td>
+                    <td><input type="number" name="chippingplasting_planned" class="form-control" value="{{ planned.chippingplasting_planned }}"></td>
+                    <td><input type="number" name="handingoverdocument_planned" class="form-control" value="{{ planned.handingoverdocument_planned }}"></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    
+
+    <div class="table-container pa">
+        <table>
+            <thead>
+                <tr>
+                    <th colspan="9">PA SYSTEM</th>
+                </tr>
+                <tr>
+                    <th> </th>
+                    <th colspan='4' >Cable Work</th>
+                    <th colspan='1'>Device Work</th>
+                    
+                    <th colspan='1'>Panel Room Works</th>
+                    <th colspan='2'>Commissioning Works</th>
+                    
+                </tr>
+                <tr>
+                    <th></th>
+                    <th>PVC Conduit (FRLS) installation in meters</th>
+                    <th>Marking and Drilling work in meters</th>
+                    <th>Cable Installation (Laying, Saddling, Dressing)</th>
+                    <th>PA Speaker Installation in numbers</th>
+                    <th>PA Controller and amplifier installation</th>
+                    <th>Continuity Testing and other commissioning works</th>
+                    <th>Programming</th>
+                </tr>
+            </thead>
+            <tbody >
+                <tr>
+                    <th>Project Quantity</th>
+                    <td><input type="number" name="pvc_planned1" class="form-control" value="{{ planned.pvc_planned1 }}"></td>
+                    <td><input type="number" name="mark_planned1" class="form-control" value="{{planned.mark_planned1 }}"></td>
+                    <td><input type="number" name="ci_planned1" class="form-control" value="{{ planned.ci_planned1 }}"></td>
+                    <td><input type="number" name="paspeakerinstallation_planned" class="form-control" value="{{ planned.paspeakerinstallation_planned }}"></td>
+                    <td><input type="number" name="pacontrollerinstallation_planned" class="form-control" value="{{ planned.pacontrollerinstallation_planned }}"></td>
+                    <td><input type="number" name="continuitytesting_planned1" class="form-control" value="{{ planned.continuitytesting_planned1 }}"></td>
+                    <td><input type="number" name="programming_planned1" class="form-control" value="{{ planned.programming_planned1 }}"></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    <br>
+    <div class="button-container">
+        <div class="button">
+            <button type="submit" class="btn btn-primary">
+                <span class="circle1"></span>
+                <span class="circle2"></span>
+                <span class="circle3"></span>
+                <span class="circle4"></span>
+                <span class="circle5"></span>
+                <span class="text">Submit</span>
+            </button>
+        </div>
+    <hr style="border: 4px solid black; ">
+    <hr style="border: 2px solid black;">
+    </div>
+
+<br><br>
+
+
+
+    <div class="table-container scrollable-table details">
+        <table>
+            <thead>
+                <tr>
+                    <th colspan="9">Details</th>
+                </tr>
+                <tr class="sticky-r">
+                    <th class="sticky-col">SL. No.</th>
+                    <th>Unique</th>
+                    <th>Man Days</th>
+                    <th>Date</th>
+                    <th>Site Incharge</th>
+                    <th>Sub Contractor Man Power</th>
+                    <th>Remarks</th>
+                    <th>Support required from customer</th>
+                    <th>Customer Action Date</th>
+                    <th>Customer Action Remarks</th>
+                </tr>
+            </thead>
+            <tbody id="productTableBody1">
+                {% for product in manday %}
+                <tr data-product-id="{{ product.id }}">
+                    <td class="sticky-col">{{ loop.index }}</td>
+                    <td><input type="text" name="uniquee[]" class="form-control" value="{{ product.uniquee }}"></td>
+                    <td><input type="number" name="day[]" class="form-control" value="{{ product.day }}"></td>
+                    <td><input type="date" name="date[]" class="form-control" value="{{ product.date }}"></td>
+                    <td><input type="text" name="site[]" class="form-control" value="{{ product.site }}"></td>
+                    <td><input type="text" name="sub[]" class="form-control" value="{{ product.sub }}"></td>
+                    <td><input type="text" name="remarks[]" class="form-control remarks-input" value="{{ product.remarks }}"></td>
+                    <td><input type="text" name="support[]" class="form-control" value="{{ product.support }}"></td>
+                    <td><input type="date" name="support1[]" class="form-control" value="{{ product.support1 }}"></td>
+                    <td>
+                        <select name="sdate[]">
+                            <option value="completed" {% if product.sdate == 'completed' %}selected{% endif %}>Completed</option>
+                            <option value="partially completed" {% if product.sdate == 'partially completed' %}selected{% endif %}>Partially Completed</option>
+                            <option value="no action" {% if product.sdate == 'no action' %}selected{% endif %}>No Action</option>
+                        </select>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    <div class="table-container scrollable-table fire">
+        <table>
+            <thead>
+                <tr>
+                    <th colspan="21">Fire System</th>
+                </tr>
+                <tr class="sticky-r">
+                    <th class="sticky-col">SL. No.</th>
+                    <th>Cable Tray in meters</th>
+                    <th>PVC Conduit (FRLS) installation in meters</th>
+                    <th>Marking and Drilling work in meters</th>
+                    <th>Cable Installation (Laying, Saddling, Dressing)</th>
+                    <th>Backbox Installation in numbers</th>
+                    <th>Base Installation in numbers</th>
+                    <th>Detector Installation in numbers</th>
+                    <th>Control Module Installation in numbers</th>
+                    <th>Hooter Installation in numbers</th>
+                    <th>MCP Installation in numbers</th>
+                    <th>Response Indicator Installation in numbers</th>
+                    <th>Monitor module Installation</th>
+                    <th>Control Relay Module Installation</th>
+                    <th>Isolator Module Installation</th>
+                    <th>Fire Panel Installation</th>
+                    <th>SMPS Installation</th>
+                    <th>Detector Testing and stickering</th>
+                    <th>Continuity Testing and other commissioning works</th>
+                    <th>Programming</th>
+                    <th>Chipping, Plasting & Others</th>
+                    <th>Handing Over Document</th>
+                </tr>
+            </thead>
+            <tbody id="productTableBody2">
+                {% for product in manday %}
+                <tr data-product-id="{{ product.id }}">
+                    <td class="sticky-col">{{ loop.index }}</td>
+                    <td><input type="number" name="cable[]" class="form-control" value="{{ product.cable }}"></td>
+                    <td><input type="number" name="pvc[]" class="form-control" value="{{ product.pvc }}"></td>
+                    <td><input type="number" name="markingdrilling[]" class="form-control" value="{{ product.markingdrilling }}"></td>
+                    <td><input type="number" name="ci[]" class="form-control" value="{{ product.ci }}"></td>
+                    <td><input type="number" name="backboxinstallation[]" class="form-control" value="{{ product.backboxinstallation }}"></td>
+                    <td><input type="number" name="baseinstallation[]" class="form-control" value="{{ product.baseinstallation }}"></td>
+                    <td><input type="number" name="detectorinstallation[]" class="form-control" value="{{ product.detectorinstallation }}"></td>
+                    <td><input type="number" name="controlmoduleinstallation[]" class="form-control" value="{{ product.controlmoduleinstallation }}"></td>
+                    <td><input type="number" name="hooterinstallation[]" class="form-control" value="{{ product.hooterinstallation }}"></td>
+                    <td><input type="number" name="mcpinstallation[]" class="form-control" value="{{ product.mcpinstallation }}"></td>
+                    <td><input type="number" name="responseindicatorinstallation[]" class="form-control" value="{{ product.responseindicatorinstallation }}"></td>
+                    <td><input type="number" name="monitormoduleinstallation[]" class="form-control" value="{{ product.monitormoduleinstallation }}"></td>
+                    <td><input type="number" name="controlrelaymoduleinstallation[]" class="form-control" value="{{ product.controlrelaymoduleinstallation }}"></td>
+                    <td><input type="number" name="isolatormoduleinstallation[]" class="form-control" value="{{ product.isolatormoduleinstallation }}"></td>
+                    <td><input type="number" name="firepanelinstallation[]" class="form-control" value="{{ product.firepanelinstallation }}"></td>
+                    <td><input type="number" name="smpsinstallation[]" class="form-control" value="{{ product.smpsinstallation }}"></td>
+                    <td><input type="number" name="detectortesting[]" class="form-control" value="{{ product.detectortesting }}"></td>
+                    <td><input type="number" name="continuitytesting[]" class="form-control" value="{{ product.continuitytesting }}"></td>
+                    <td><input type="number" name="programming[]" class="form-control" value="{{ product.programming }}"></td>
+                    <td><input type="number" name="chippingplasting[]" class="form-control" value="{{ product.chippingplasting }}"></td>
+                    <td><input type="number" name="handingoverdocument[]" class="form-control" value="{{ product.handingoverdocument }}"></td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    <div class="table-container scrollable-table pa">
+        <table>
+            <thead>
+                <tr>
+                    <th colspan="9">PA System</th>
+                </tr>
+                <tr class="sticky-r">
+                    <th class="sticky-col">SL. No.</th>
+                    
+                    
+                    <th>PVC Conduit (FRLS) installation in meters</th>
+                    <th>Marking and Drilling work in meters</th>
+                    <th>Cable Installation (Laying, Saddling, Dressing)</th>
+                    <th>PA Speaker Installation in numbers</th>
+                    <th>PA Controller and amplifier installation</th>
+                    <th>Continuity Testing and other commissioning works</th>
+                    <th>Programming</th>
+                </tr>
+            </thead>
+            <tbody id="productTableBody3">
+                {% for product in manday %}
+                <tr data-product-id="{{ product.id }}">
+                    <td class="sticky-col">{{ loop.index }}</td>
+                    
+                    <td><input type="number" name="pvc1[]" class="form-control" value="{{ product.pvc1 }}"></td>
+                    <td><input type="number" name="markingdrilling1[]" class="form-control" value="{{ product.markingdrilling1 }}"></td>
+                    <td><input type="number" name="ci1[]" class="form-control" value="{{ product.ci1 }}"></td>
+                    <td><input type="number" name="paspeakerinstallation[]" class="form-control" value="{{ product.paspeakerinstallation }}"></td>
+                    <td><input type="number" name="pacontrollerinstallation[]" class="form-control" value="{{ product.pacontrollerinstallation }}"></td>
+                    <td><input type="number" name="continuitytesting1[]" class="form-control" value="{{ product.continuitytesting1 }}"></td>
+                    <td><input type="number" name="programming1[]" class="form-control" value="{{ product.programming1 }}"></td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+            
+
+    <div class="button-container">
+        <div class="button">
+            <button type="button" onclick="addRow()" class="btn btn-primary">
+                <span class="circle1"></span>
+                <span class="circle2"></span>
+                <span class="circle3"></span>
+                <span class="circle4"></span>
+                <span class="circle5"></span>
+                <span class="text">Add Row</span>
+            </button>
+        </div>
+        </div>
+        <div class="button-container">
+            <div class="button-container">
+                <div class="button">
+                    <button type="submit" class="btn btn-primary">
+                        <span class="circle1"></span>
+                        <span class="circle2"></span>
+                        <span class="circle3"></span>
+                        <span class="circle4"></span>
+                        <span class="circle5"></span>
+                        <span class="text">Submit</span>
+                    </button>
+                </div>
+        </div>
+    </form>
+</div>
+<br>
+
+<script>
+    function deleteProduct(id) {
+        if (confirm("Are you sure you want to delete this product?")) {
+            if (id.startsWith('new-row')) {
+                const row = document.querySelector(`tr[data-product-id="${id}"]`);
+                row.remove();
+            } else {
+                fetch(`/delete_product_ppt/${id}`, {
+                    method: 'DELETE',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                })
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error(`HTTP error! Status: ${response.status}`);
+                    }
+                    return response.json();
+                })
+                .then(data => {
+                    console.log('Success:', data);
+                    // Optionally, you can update the UI or take other actions upon success
+                    window.location.reload(); // Refreshing the page after successful deletion
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    // Handle errors gracefully
+                });
+            }
+        }
+    }
+
+
+    function addRow() {
+        const tableBody1 = document.getElementById('productTableBody1');
+        const tableBody2 = document.getElementById('productTableBody2');
+        const tableBody3 = document.getElementById('productTableBody3');
+        const rowCount = tableBody1.rows.length + 1;
+        const newRowId = `new-row-${rowCount}`;
+    
+        const newRowHtml1 = `
+            <tr data-product-id="${newRowId}">
+                <td>${rowCount}</td>
+                <td><input type="text" name="uniquee[]" value="{{email}}/"></td>
+                <td><input type="number" name="day[]"></td>
+                <td><input type="date" name="date[]"></td>
+                <td><input type="text" name="site[]"></td>
+                <td><input type="text" name="sub[]"></td>
+                <td><input type="text" name="remarks[]"></td>
+                <td><input type="text" name="support[]"></td>
+                <td><input type="date" name="support1[]"></td>
+                <td>
+                    <select name="sdate[]">
+                        <option value="completed">Completed</option>
+                        <option value="partially completed">Partially Completed</option>
+                        <option value="no action">No Action</option>
+                    </select>
+                </td>
+            </tr>
+        `;
+    
+        const newRowHtml2 = `
+            <tr data-product-id="${newRowId}">
+                <td>${rowCount}</td>
+                <td><input type="number" name="cable[]"></td>
+                <td><input type="number" name="pvc[]"></td>
+                <td><input type="number" name="markingdrilling[]"></td>
+                <td><input type="number" name="ci[]"></td>
+                <td><input type="number" name="backboxinstallation[]"></td>
+                <td><input type="number" name="baseinstallation[]"></td>
+                <td><input type="number" name="detectorinstallation[]"></td>
+                <td><input type="number" name="controlmoduleinstallation[]"></td>
+                <td><input type="number" name="hooterinstallation[]"></td>
+                <td><input type="number" name="mcpinstallation[]"></td>
+                <td><input type="number" name="responseindicatorinstallation[]"></td>
+                <td><input type="number" name="monitormoduleinstallation[]"></td>
+                <td><input type="number" name="controlrelaymoduleinstallation[]"></td>
+                <td><input type="number" name="isolatormoduleinstallation[]"></td>
+                <td><input type="number" name="firepanelinstallation[]"></td>
+                <td><input type="number" name="smpsinstallation[]"></td>
+                <td><input type="number" name="detectortesting[]"></td>
+                <td><input type="number" name="continuitytesting[]"></td>
+                <td><input type="number" name="programming[]"></td>
+                <td><input type="number" name="chippingplasting[]"></td>
+                <td><input type="number" name="handingoverdocument[]"></td>
+            </tr>
+            
+        `
+        const newRowHtml3 = `
+        <tr data-product-id="${newRowId}">
+            <td>${rowCount}</td>
+            
+            <td><input type="number" name="pvc1[]"></td>
+            <td><input type="number" name="markingdrilling1[]"></td>
+            <td><input type="number" name="ci1[]"></td>
+            <td><input type="number" name="paspeakerinstallation[]"></td>
+            <td><input type="number" name="pacontrollerinstallation[]"></td>
+            <td><input type="number" name="continuitytesting1[]"></td>
+            <td><input type="number" name="programming1[]"></td>
+            `;
+    
+        tableBody1.insertAdjacentHTML('beforeend', newRowHtml1);
+        tableBody2.insertAdjacentHTML('beforeend', newRowHtml2);
+        tableBody3.insertAdjacentHTML('beforeend', newRowHtml3);
+    }
+</script>
+
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"
+        integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj"
+        crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"
+        integrity="sha384-9CQY0C1JXYm6yl6AR5ZlrGcQH/Tm5IwJCRTAJk3gZhcVnza3pne+LPRK7xkI8mUA"
+        crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"
+        integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6"
+        crossorigin="anonymous"></script>
+</body>
+</html>
+
+
+
+

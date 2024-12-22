@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Nadiya</title>
+  <link rel="icon" type="image/png" href="{{url_for('static',filename='logo.png')}}">
+
+  <link
+    rel="stylesheet"
+    href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+    integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh"
+    crossorigin="anonymous"
+  />
+  <link
+    rel="stylesheet"
+    href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css"
+    crossorigin="anonymous"
+  />
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Roboto+Condensed:wght@700&display=swap');
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      overflow-x: hidden;
+    }
+
+    body {
+      height: 100vh;
+      width: 100vw;
+      max-height: 100vh;
+      background-color: #f8f9fa;
+      color: #333;
+      font-family: 'Roboto Condensed', sans-serif;
+
+    }
+
+    .container {
+      text-align: center;
+
+      padding: 20px;
+
+
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      margin-top: 30px !important;
+    }
+
+    h1 {
+      font-size: 48px;
+      margin-bottom: 30px;
+      margin-top:30px;
+      color: #fff;
+    }
+
+    .link-list {
+      list-style-type: none;
+      width: 50%;
+      padding: 0;
+    }
+
+    .link-list li {
+      margin-bottom: 15px;
+      height: 100px;
+    }
+
+    .link-list li a {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 10px;
+      background-color: #ffffff;
+      border: 1px solid #cccccc;
+      border-radius: 5px;
+      text-decoration: none;
+      color: #333333;
+      transition: background-color 0.3s ease;
+      height: 100%;
+    }
+
+    .link-list li a:hover {
+      background-color: #f0f0f0;
+    }
+
+    .link-list li a i {
+      margin-right: 10px;
+      color: #007bff;
+    }
+
+    .header {
+      background-color: #333;
+      padding: 10px;
+      display:flex;
+      justify-content: center;
+      text-align: center;
+      margin-bottom: 20px;
+    }
+
+    .header a {
+      color: #007bff;
+      text-decoration: none;
+      font-weight: bold;
+      transition: color 0.3s ease;
+    }
+
+    .header a:hover {
+      color: #0056b3;
+    }
+
+    .navbar-nav .nav-item .nav-link {
+      color: #white;
+      font-weight: bold;
+    }
+
+    .navbar-nav .nav-item .nav-link i {
+      margin-right: 5px;
+      color: white;
+    }
+  </style>
+
+  <title>{% block title %}Home{% endblock %}</title>
+</head>
+<body>
+  <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbar">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbar">
+      <div class="navbar-nav">
+        <a class="nav-item nav-link" id="home" href="/"><i class="fa fa-home"></i> Home</a>
+
+        <a class="nav-item nav-link" id="gantt" href="/gantt"><i class="fa fa-bar-chart"></i> GTC</a>
+        <a class="nav-item nav-link" id="pmt" href="/display"><i class="fa fa-tasks"></i> PMT</a>
+        <a class="nav-item nav-link" id="ppt" href="/output"><i class="fa fa-line-chart"></i> PPT</a>
+
+      </div>
+      <div class="navbar-nav ml-auto">
+        <a class="nav-item nav-link" id="logout" href="/logout"><i class="fa fa-sign-out"></i> Logout</a>
+      </div>
+    </div>
+  </nav>
+
+  <div class="header">
+    <h1>{{ email }}</h1>
+  </div>
+
+  <div class="container">
+    <ul class="link-list">
+      <li><a href="/gantt"><i class="fa fa-bar-chart"></i> Gantt Chart Tool (GTC)</a></li>
+      <li><a href="/display"><i class="fa fa-tasks"></i> Project Material Tracker (PMT)</a></li>
+      <li><a href="/output"><i class="fa fa-line-chart"></i> Project Progress Tracker (PPT)</a></li>
+
+    </ul>
+  </div>
+
+  <script
+    src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
+    integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
+    crossorigin="anonymous"
+  ></script>
+  <script
+    src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
+    integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7H/UibX39j7fakFPskvXusvfa0b4Q"
+    crossorigin="anonymous"
+  ></script>
+  <script
+    src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
+    integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+    crossorigin="anonymous"
+  ></script>
+</body>
+</html>

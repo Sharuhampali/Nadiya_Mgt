@@ -1,0 +1,293 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title> MATERIAL REQUISITION TRACKER</title>
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" rel="stylesheet">
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+
+    <style>
+
+
+        .header h1,
+        .header h3 {
+            margin: 0;
+        }
+        h1 {
+            text-align: center;
+        }
+       .container {
+            max-width: 1100px;
+            margin: 0 auto;
+            text-align: center;
+        }
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 10px;
+            margin-top: 20px;
+            flex-direction: column;
+        }
+        .header h1,
+        .header h3 {
+            margin: 0;
+        }
+        h1 {
+            text-align: center;
+        }
+       .footer {
+    display: flex;
+    justify-content: space-between;
+    padding: 20px;
+
+    border-top: 1px solid #ccc; /* subtle border */
+}
+
+.contact-info {
+    margin-bottom: 10px;
+}
+
+.left, .right {
+    flex: 1; /* equal width columns */
+}
+
+.left {
+    margin-right: 10px; /* space between left and right columns */
+}
+
+        .footer p {
+            margin: 10px 0;
+        }
+        .footer-bottom {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 10px;
+        }
+
+
+
+        .footer-bottom .regards {
+    font-size: 13px; /* Adjust the font size as needed */
+    text-align: center;
+
+
+}
+
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+            margin-bottom: 20px;
+            border: 2px solid black;
+            overflow-x: auto; /* Ensure horizontal scroll when needed */
+        }
+        th, td {
+            border: 2px solid black; /* Ensure all table cells have a black border */
+            padding: 8px;
+        }
+        th {
+            background-color: #f2f2f2;
+            border: 2px solid black; /* Ensure table headers have a black border */
+        }
+        tr {
+            border: 2px solid black; /* Ensure table rows have a black border */
+        }
+        .right-align {
+            text-align: right;
+        }
+        .left-align {
+            text-align: left;
+        }
+        .justify-text {
+            text-align: justify;
+        }
+        .right-align p {
+            margin: 5px 0;
+        }
+        .right-align strong {
+            font-weight: bold;
+        }
+         .watermark {
+            position: fixed;
+            width: 100%;
+            height: 100%;
+            background-image: url('{{ url_for("static", filename="logo.png") }}'); /* URL path to your logo image */
+            background-position: center;
+            background-repeat: no-repeat; /* Adjust based on how you want the watermark to repeat */
+            opacity: 0.3; /* Adjust the opacity as needed */
+            pointer-events: none; /* Ensure clicks and mouse events do not interact with the watermark */
+            z-index: -1; /* Place the watermark behind all other content */
+        }
+        .lines {
+            margin-top: 35px; /* Adjust spacing between header and lines */
+        }
+        .line {
+            height: 6px; /* Adjust height of the lines */
+            margin-bottom: 3px; /* Add space between each line */
+        }
+        .line1 {
+            background: linear-gradient(to right, green, yellow, green);
+        }
+        .line2 {
+            background: linear-gradient(to right, red, darkred);
+        }
+        .line3 {
+            background: linear-gradient(to right, darkblue, skyblue, darkblue);
+        }
+        .logo-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+   @media only screen and (max-width: 768px) {
+        .container {
+            padding: 10px; /* Adjust padding for smaller screens */
+        }
+        .header h1 {
+            font-size: 24px; /* Adjust font size for smaller screens */
+        }
+        .footer .regards p {
+            font-size: 10px; /* Adjust font size for smaller screens */
+        }
+        .footer .contact-info p {
+            font-size: 10px; /* Adjust font size for smaller screens */
+        }
+        .table-responsive {
+            overflow-x: auto; /* Ensure horizontal scroll for tables on smaller screens */
+        }
+    }
+
+    @media only screen and (max-width: 576px) {
+        .header h1 {
+            font-size: 20px; /* Further adjust font size for very small screens */
+        }
+        .footer .regards p {
+            font-size: 8px; /* Further adjust font size for very small screens */
+        }
+        .footer .contact-info p {
+            font-size: 8px; /* Further adjust font size for very small screens */
+        }
+    }
+    </style>
+</head>
+<body>
+    <div class="watermark"></div>
+    <div class="container">
+        <br><br>
+        <div class="logo-header">
+            <img src="{{ url_for('static', filename='logo.png') }}" alt="Logo" width="100">
+            <h3><strong>Nadiya Technology Solutions Pvt Ltd</strong></h3>
+        </div>
+        <div class="lines">
+            <div class="line line1"></div>
+            <div class="line line2"></div>
+            <div class="line line3"></div>
+        </div>
+        <div class="header">
+            <h1>MATERIAL REQUISITION</h1>
+            <h2></h2>
+            <h3></h3>
+            <br><br>
+        </div>
+        <div class="right-align">
+            <p><strong>REPORT DATE:</strong> {{ current_date }} &nbsp;&nbsp;</p>
+        </div>
+        <div class = "left-align">
+        <p><strong>CUSTOMER NAME:</strong> {{current_user.email}} &nbsp;&nbsp;</p>
+        {% if infos %}
+            <p><strong>LOCATION:</strong> {{infos[-1].loc}} &nbsp;&nbsp;</p>
+        {% endif %}
+        {% if contact %}
+            <p><strong>SITE INCHARGE:</strong> {{contact[-1].name1}} &nbsp;&nbsp;</p>
+        {% endif %}
+        </div>
+        <div class = "table-responsive">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Sl. No.</th>
+                        <th>Type</th>
+                        <th>Item name</th>
+                        <th>Make</th>
+                        <th>IOF Qty</th>
+                        <th>Stock Qty</th>
+                        <th>Requisition Quantity</th>
+                        <th>Cumulative</th>
+                        <th>Materials Requisition Date</th>
+                        <th>Remarks</th>
+                        <th>Materials Delivery Date</th>
+                        <th>Remarks</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for product in stonks %}
+                        {% if product.item %}
+                            <tr data-product-id="{{ product.id }}">
+                                <td>{{ loop.index }}</td>
+                                <td>{{ product.menu }}</td>
+                                <td>{{ product.item }}</td>
+                                <td>{{ product.make }}</td>
+                                <td>{{ product.iof }}</td>
+                                <td>{{ product.stock }}</td>
+                                <td>{{ product.unit }}</td>
+                                <td>{{ product.cumulative }}</td>
+                                <td>{{ product.date1 }}</td>
+                                <td>{{ product.remarks1 }}</td>
+                                <td>{{ product.date2 }}</td>
+                                <td>{{ product.remarks2 }}</td>
+                            </tr>
+                        {% endif %}
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div><br><br>
+              <h6>For any queries Contact:</h6>
+       <div class="footer">
+    <div class="left">
+        <div class="contact-info">
+
+            <p>Sumana S.</p>
+            <p><i class="fa fa-envelope"></i> <a href="mailto:sumana@nadiya.in">sumana@nadiya.in</a></p>
+            <p><i class="fa fa-phone"></i> 9742223661</p>
+        </div>
+    </div>
+    <div class="right">
+        <div class="contact-info">
+
+            <p>Sneha H. T.</p>
+            <p><i class="fa fa-envelope"></i> <a href="mailto:customerservice@nadiya.in">customerservice@nadiya.in</a></p>
+            <p><i class="fa fa-phone"></i> 7760213765</p>
+        </div>
+    </div>
+
+        </div>
+        <div class="lines">
+        <div class="line line1"></div>
+        <div class="line line2"></div>
+        <div class="line line3"></div>
+    </div>
+      <div class="footer-bottom">
+            <div class="left">
+
+                 <div class="regards">
+
+                   <center>&nbsp;&nbsp;#372/A, 2nd Floor, New No. 7, 50ft Main Road,
+                    Banashankari 1st Stage, Bangalore – 560019 Ph: 080 26628080 |
+                    Web : www.nadiya.in<br></p></center>
+                    <p><center><strong> GST: 29AAECN7940D1ZC  |  CIN: U74900KA2014PTC077481</strong></center></p>
+                </div>
+                </div>
+    <br><br>
+    </div>
+
+
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.11.0/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+</body>
+</html>
